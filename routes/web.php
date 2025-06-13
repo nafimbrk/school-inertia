@@ -6,6 +6,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('class')->group(function () {
         Route::name('class.')->group(function () {
             Route::get('/', [ClassController::class, 'index'])->name('index');
+            Route::get('/{id}', [ClassController::class, 'show'])->name('show');
             Route::get('/create', [ClassController::class, 'create'])->name('create')->middleware('admin');
             Route::post('/', [ClassController::class, 'store'])->name('store');
             Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('edit')->middleware('admin');
@@ -38,6 +40,12 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}', [StudentController::class, 'destroy'])->name('destroy');
         });
     });
+
+
+    Route::resource('profile', ProfileController::class);
+    Route::delete('delete/{id}', [ProfileController::class, 'deleteImage'])->name('delete.image');
 });
+
+
 
 

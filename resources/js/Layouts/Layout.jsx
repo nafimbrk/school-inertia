@@ -15,7 +15,7 @@ function Layout({ children }) {
             ) : (
                 ''
             )}
-            <div class="p-4 mt-14 sm:ml-64">
+            <div className="p-4 mt-14 sm:ml-64">
                 {children}
             </div>
         </>

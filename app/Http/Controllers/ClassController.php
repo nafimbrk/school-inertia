@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassRoom;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
@@ -58,7 +59,11 @@ class ClassController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $students = Student::where('class_room_id', $id)->get();
+
+        return inertia('Class/Show', [
+            'students' => $students
+        ]);
     }
 
     /**

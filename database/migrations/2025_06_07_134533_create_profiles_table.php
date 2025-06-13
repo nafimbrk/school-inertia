@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->text('address');
-            $table->string('contact');
+            $table->text('address')->nullable();
+            $table->string('contact')->nullable();
         });
     }
 

@@ -9,12 +9,23 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('class')->get();
+        $search = $request->input('search');
+
+        $students = Student::with('class')
+                ->where('name', 'like', "%$search%")
+                ->orwhere('gender', 'like', "%$search%")
+                ->orwhereHas('class', function($q) use ($search) {
+                    $q->where('name', 'like', "%$search%");
+                })
+                ->paginate(2);
 
         return inertia('Student/Index', [
-            'students' => $students
+            'students' => $students,
+            'filters' => [
+                'search' => $search
+            ]
         ]);
     }
 
@@ -33,7 +44,7 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class_room_id' => 'required',
+            'class_room_id' => 'nullable',
             'name' => 'required',
             'gender' => 'in:L,P',
             'image' => 'nullable|mimes:jpeg,jpg,png,gif'

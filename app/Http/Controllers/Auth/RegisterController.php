@@ -27,7 +27,7 @@ class RegisterController extends Controller
         $request->validate([
             'name'      => 'required',
             'email'     => 'required|unique:users',
-            'password'  => 'required|confirmed'
+            'password'  => 'required'
         ]);
 
         /**
@@ -40,6 +40,6 @@ class RegisterController extends Controller
         ]);
 
         //redirect
-        return redirect('/login')->with('status', 'Register Berhasil!');
+        return redirect()->route('login')->with('status', 'Register Berhasil!');
     }
 }
